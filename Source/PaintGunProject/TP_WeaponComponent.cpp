@@ -2,11 +2,14 @@
 
 
 #include "TP_WeaponComponent.h"
+
+#include "CollisionDebugDrawingPublic.h"
 #include "PaintGunProjectCharacter.h"
 #include "PaintGunProjectProjectile.h"
 #include "GameFramework/PlayerController.h"
 #include "Camera/PlayerCameraManager.h"
 #include "Kismet/GameplayStatics.h"
+#include "Misc/OutputDeviceNull.h"
 
 // Sets default values for this component's properties
 UTP_WeaponComponent::UTP_WeaponComponent()
@@ -39,15 +42,18 @@ void UTP_WeaponComponent::Fire()
 			ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
 	
 			// Spawn the projectile at the muzzle
-			World->SpawnActor<APaintGunProjectProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+			//World->SpawnActor<APaintGunProjectProjectile>(ProjectileClass, SpawnLocation, SpawnRotation, ActorSpawnParams);
+
+			FOutputDeviceNull ar;
+			CallFunctionByNameWithArguments(TEXT("Paint"), ar, NULL, true);
 		}
 	}
 	
 	// Try and play the sound if specified
-	if (FireSound != nullptr)
-	{
-		UGameplayStatics::PlaySoundAtLocation(this, FireSound, Character->GetActorLocation());
-	}
+	//if (FireSound != nullptr)
+	//{
+	//	UGameplayStatics::PlaySoundAtLocation(this, FireSound, Character->GetActorLocation());
+	//}
 	
 	// Try and play a firing animation if specified
 	if (FireAnimation != nullptr)
